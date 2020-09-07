@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 import MaskedInput from "react-text-mask";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,17 +26,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TextMaskCustom(props) {
+function DateMaks(props) {
   const { inputRef, ...other } = props;
 
   return (
     <MaskedInput
+      guide
       {...other}
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
       mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
-      placeholderChar={"\u2000"}
+      placeholderChar={"_"}
+      showMask
+    />
+  );
+}
+
+function PhoneMask(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      guide
+      {...other}
+      ref={(ref) => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[
+        "(",
+        /\d/,
+        /\d/,
+        ")",
+        " ",
+        /\d/,
+        " ",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+      ]}
+      placeholderChar={"_"}
       showMask
     />
   );
@@ -47,61 +83,74 @@ export default function SignIn() {
   return (
     <Container component="div" maxWidth="md">
       <div className={classes.paper}>
-        <form className={classes.form} noValidate>
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Nome"
-            name="name"
-            autoComplete="name"
-            autoFocus
-          />
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="E-mail"
-            name="email"
-            autoComplete="email"
-          />
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            required
-            fullWidth
-            id="birth"
-            label="Nascimento"
-            name="birth"
-            autoComplete="birth"
-            InputProps={{
-              inputComponent: TextMaskCustom,
-            }}
-          />
-          <TextField
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            required
-            fullWidth
-            id="phone"
-            label="Telefone"
-            name="phone"
-            autoComplete="phone"
-          />
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            CADASTRAR
-          </Button>
-        </form>
+        <Grid container className={classes.form}>
+          <Grid item xs={12}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Nome"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="E-mail"
+              name="email"
+              autoComplete="email"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              required
+              fullWidth
+              id="birth"
+              label="Nascimento"
+              name="birth"
+              autoComplete="birth"
+              InputProps={{
+                inputComponent: DateMaks,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              required
+              fullWidth
+              id="phone"
+              label="Telefone"
+              name="phone"
+              autoComplete="phone"
+              InputProps={{
+                inputComponent: PhoneMask,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              CADASTRAR
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );
