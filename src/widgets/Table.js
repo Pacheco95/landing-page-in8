@@ -8,14 +8,11 @@ import {
 import React from "react";
 import styled from "styled-components";
 import Form from "widgets/RegisterForm/Form";
-
-const Wrapper = styled.header`
-  background-color: #29abe2;
-`;
+import SimpleTable from "components/SimpleTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.common.white,
     padding: theme.spacing(6, 4, 8, 4),
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(6, 1, 8, 1),
@@ -27,30 +24,31 @@ const useStyles = makeStyles((theme) => ({
   text: {
     textAlign: "center",
     marginBottom: theme.spacing(6),
+    color: '#29abe2'
   },
 }));
 
-function RegisterForm() {
+function Table() {
   const classes = useStyles();
 
   return (
-    <Wrapper className={classes.root}>
+    <Container className={classes.root}>
       <Grid container justify="center">
         <Grid item>
           <Typography className={classes.text} variant="h2">
-            CADASTRO
+            LISTA DE CADASTRO
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Container maxWidth="md">
             <Paper>
-              <Form />
+              <SimpleTable />
             </Paper>
           </Container>
         </Grid>
       </Grid>
-    </Wrapper>
+    </Container>
   );
 }
 
-export default RegisterForm;
+export default Table;
