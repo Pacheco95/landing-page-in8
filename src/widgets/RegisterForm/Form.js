@@ -94,7 +94,7 @@ export default function SignIn() {
               label="Nome"
               name="name"
               autoComplete="name"
-              autoFocus
+              // autoFocus
             />
           </Grid>
           <Grid item xs={12}>
