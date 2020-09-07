@@ -31,15 +31,15 @@ export default function SignIn() {
     <Container component="div" maxWidth="md">
       <div className={classes.paper}>
         <form className={classes.form} noValidate>
-          <TextField
+        <TextField
             InputLabelProps={{ shrink: true }}
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="name"
+            label="Nome"
+            name="name"
+            autoComplete="name"
             autoFocus
           />
           <TextField
@@ -47,14 +47,33 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            id="email"
+            label="E-mail"
+            name="email"
+            autoComplete="email"
+          />
+          <TextField
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            required
+            fullWidth
+            id="birth"
+            label="Nascimento"
+            name="birth"
+            autoComplete="birth"
+          />
+          <TextField
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            required
+            fullWidth
+            id="phone"
+            label="Telefone"
+            name="phone"
+            autoComplete="phone"
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"

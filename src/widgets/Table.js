@@ -34,7 +34,7 @@ function Table() {
       <Grid container justify="center">
         <Grid item>
           <Typography className={classes.text} variant="h2">
-            LISTA DE CADASTRO
+            LISTA DE CADASTROS
           </Typography>
         </Grid>
         <Grid item xs={12}>
