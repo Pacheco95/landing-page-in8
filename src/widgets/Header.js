@@ -1,4 +1,10 @@
-import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+  Container,
+  Grid,
+  makeStyles,
+  Typography,
+  Box,
+} from "@material-ui/core";
 import DesktopHeaderImage from "assets/images/index-image.jpg";
 import LogoImage from "assets/images/logo-in8-dev.svg";
 import clsx from "clsx";
@@ -54,6 +60,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  headerTextContainer: {
+    marginTop: theme.spacing(12)
+  },
+  headerText: {
+    color: theme.palette.common.white,
+  }
 }));
 
 function NavLink(props) {
@@ -119,6 +131,20 @@ function Header() {
         </Grid>
         <Grid item>
           <NavLinks />
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container className={classes.headerTextContainer}>
+            <Grid item xs={12}>
+            <Typography variant="h1" className={classes.headerText}>
+                <Box textAlign="left">ESTÁGIO</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h2" className={classes.headerText}>
+                <Box textAlign="left">PROVA DE SELEÇÃO</Box>
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Container>
