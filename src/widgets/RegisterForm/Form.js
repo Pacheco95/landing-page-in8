@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
+import MaskedInput from "react-text-mask";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -24,6 +25,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={(ref) => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
+      placeholderChar={"\u2000"}
+      showMask
+    />
+  );
+}
+
 export default function SignIn() {
   const classes = useStyles();
 
@@ -31,7 +48,7 @@ export default function SignIn() {
     <Container component="div" maxWidth="md">
       <div className={classes.paper}>
         <form className={classes.form} noValidate>
-        <TextField
+          <TextField
             InputLabelProps={{ shrink: true }}
             margin="normal"
             required
@@ -61,6 +78,9 @@ export default function SignIn() {
             label="Nascimento"
             name="birth"
             autoComplete="birth"
+            InputProps={{
+              inputComponent: TextMaskCustom,
+            }}
           />
           <TextField
             InputLabelProps={{ shrink: true }}
