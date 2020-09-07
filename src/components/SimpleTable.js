@@ -29,7 +29,7 @@ export default function SimpleTable() {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} elevation={0}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>

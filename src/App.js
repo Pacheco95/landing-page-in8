@@ -3,6 +3,7 @@ import Header from "widgets/Header";
 import RegisterForm from "widgets/RegisterForm/RegisterForm";
 import { Grid } from "@material-ui/core";
 import Table from "widgets/Table";
+import Footer from "widgets/Footer";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
       </Grid>
       <Grid item xs={12}>
         <Table />
+      </Grid>
+      <Grid item xs={12}>
+        <Footer />
       </Grid>
     </Grid>
   );

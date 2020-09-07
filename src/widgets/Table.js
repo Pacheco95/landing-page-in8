@@ -1,14 +1,12 @@
 import {
+  Container,
   Grid,
   makeStyles,
-  Typography,
   Paper,
-  Container,
+  Typography,
 } from "@material-ui/core";
-import React from "react";
-import styled from "styled-components";
-import Form from "widgets/RegisterForm/Form";
 import SimpleTable from "components/SimpleTable";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(6, 1, 8, 1),
     },
     [theme.breakpoints.up("lg")]: {
-      maxWidth: theme.breakpoints.values['xl']
+      maxWidth: theme.breakpoints.values["xl"],
     },
   },
   text: {
     textAlign: "center",
     marginBottom: theme.spacing(6),
-    color: '#29abe2'
+    color: "#29abe2",
   },
 }));
 
