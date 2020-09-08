@@ -122,11 +122,9 @@ function NavLink(props) {
         to={to}
         spy={true}
         smooth={true}
-        offset={50}
-        duration={500}
+        duration={900}
         onClick={onClick}
         selected={selected}
-        // onSetActive={handleSetActive}
       >
         {children}
       </Link>

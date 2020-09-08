@@ -31,8 +31,8 @@ const SandwichMenu = () => {
               to="tableEl"
               spy={true}
               smooth={true}
-              offset={50}
-              duration={500}
+              offset={0}
+              duration={800}
               onSetActive={handleSetActive}
             >
               <li>Lista</li>
@@ -43,8 +43,8 @@ const SandwichMenu = () => {
               to="footerEl"
               spy={true}
               smooth={true}
-              offset={50}
-              duration={500}
+              offset={0}
+              duration={800}
               onSetActive={handleSetActive}
             >
               <li>Sobre mim</li>
@@ -55,8 +55,8 @@ const SandwichMenu = () => {
               to="formEl"
               spy={true}
               smooth={true}
-              offset={50}
-              duration={500}
+              offset={0}
+              duration={800}
               onSetActive={handleSetActive}
             >
               <li>Cadastro</li>
