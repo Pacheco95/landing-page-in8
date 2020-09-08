@@ -188,7 +188,7 @@ function TabletHeader() {
                 component="h2"
                 className={classes.headerText}
               >
-                <Box>PROVA DE SELEÇÃO tablet</Box>
+                <Box>PROVA DE SELEÇÃO</Box>
               </Typography>
             </Grid>
           </Grid>
@@ -235,7 +235,7 @@ function MobileHeader() {
                 component="h2"
                 className={classes.headerText}
               >
-                <Box textAlign="center">PROVA DE SELEÇÃO mobile</Box>
+                <Box textAlign="center">PROVA DE SELEÇÃO</Box>
               </Typography>
             </Grid>
           </Grid>
@@ -277,7 +277,7 @@ function DesktopHeader() {
                 component="h2"
                 className={classes.headerText}
               >
-                <Box textAlign="left">PROVA DE SELEÇÃO desktop</Box>
+                <Box textAlign="left">PROVA DE SELEÇÃO</Box>
               </Typography>
             </Grid>
           </Grid>
