@@ -4,12 +4,15 @@ import {
   makeStyles,
   Typography,
   Box,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import DesktopHeaderImage from "assets/images/index-image.jpg";
 import LogoImage from "assets/images/logo-in8-dev.svg";
 import clsx from "clsx";
 import React, { useState } from "react";
 import styled from "styled-components";
+import HamburguerIcon from "assets/icons/hamburguer.svg";
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -27,19 +30,20 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("md")]: {
       "background-position": "60% center",
+      padding: theme.spacing(8, 16),
     },
     [theme.breakpoints.down("sm")]: {
       "background-position": "60% center",
       height: "480px",
+      padding: theme.spacing(4, 5),
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: theme.spacing(2, 4),
     },
     height: "100vh",
     "background-position": "center center",
     backgroundRepeat: "no-repeat",
     "background-size": "cover",
-  },
-  text: {
-    color: theme.palette.common.white,
-    textAlign: "center",
   },
   navLinks: (props) => ({
     padding: theme.spacing(1, 1),
@@ -61,11 +65,45 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   headerTextContainer: {
-    marginTop: theme.spacing(12)
+    [theme.breakpoints.up("lg")]: {
+      marginTop: theme.spacing(20),
+    },
+    [theme.breakpoints.up("md")]: {
+      marginTop: theme.spacing(10),
+      "& h1": {
+        fontSize: 100,
+      },
+      "& h2": {
+        fontSize: 32,
+      },
+    },
+    [theme.breakpoints.down("md")]: {
+      marginTop: theme.spacing(10),
+      paddingLeft: theme.spacing(10),
+      "& h1": {
+        fontSize: 60,
+      },
+      "& h2": {
+        fontSize: 28,
+      },
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: theme.spacing(4),
+      paddingLeft: theme.spacing(0),
+      "& h1": {
+        fontSize: 36,
+      },
+      "& h2": {
+        fontSize: 16,
+      },
+    },
   },
   headerText: {
     color: theme.palette.common.white,
-  }
+    [theme.breakpoints.down("xs")]: {
+      textAlign: "center",
+    },
+  },
 }));
 
 function NavLink(props) {
@@ -117,7 +155,100 @@ function NavLinks(props) {
   );
 }
 
-function Header() {
+function TabletHeader() {
+  const classes = useStyles();
+
+  return (
+    <Container maxWidth="xl" className={classes.root}>
+      <Grid container justify="space-between">
+        <Grid item>
+          <img src={HamburguerIcon} alt="hamburguer icon" width={30} />
+        </Grid>
+        <Grid item>
+          <Spacer />
+        </Grid>
+        <Grid item>
+          <img src={LogoImage} alt="hamburguer image" width={120} />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Grid
+            container
+            className={classes.headerTextContainer}
+          >
+            <Grid item xs={12}>
+              <Typography
+                variant="h1"
+                component="h1"
+                className={classes.headerText}
+              >
+                <Box>ESTÁGIO</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h2"
+                component="h2"
+                className={classes.headerText}
+              >
+                <Box>PROVA DE SELEÇÃO</Box>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+}
+
+function MobileHeader() {
+  const classes = useStyles();
+
+  return (
+    <Container maxWidth="xl" className={classes.root}>
+      <Grid container justify="space-between">
+        <Grid item>
+          <img src={HamburguerIcon} alt="hamburguer icon" width={30} />
+        </Grid>
+        <Grid item>
+          <Spacer />
+        </Grid>
+        <Grid item>
+          <img src={LogoImage} alt="hamburguer image" width={90} />
+        </Grid>
+
+        <Grid item xs={12} id="headerTextContainer">
+          <Grid
+            container
+            className={classes.headerTextContainer}
+            justify="center"
+          >
+            <Grid item xs={12}>
+              <Typography
+                variant="h1"
+                component="h1"
+                className={classes.headerText}
+              >
+                <Box textAlign="center">ESTÁGIO</Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="h2"
+                component="h2"
+                className={classes.headerText}
+              >
+                <Box textAlign="center">PROVA DE SELEÇÃO</Box>
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+}
+
+function DesktopHeader() {
   const classes = useStyles();
 
   return (
@@ -135,12 +266,20 @@ function Header() {
         <Grid item xs={12}>
           <Grid container className={classes.headerTextContainer}>
             <Grid item xs={12}>
-            <Typography variant="h1" className={classes.headerText}>
+              <Typography
+                variant="h1"
+                component="h1"
+                className={classes.headerText}
+              >
                 <Box textAlign="left">ESTÁGIO</Box>
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h2" className={classes.headerText}>
+              <Typography
+                variant="h2"
+                component="h2"
+                className={classes.headerText}
+              >
                 <Box textAlign="left">PROVA DE SELEÇÃO</Box>
               </Typography>
             </Grid>
@@ -148,6 +287,21 @@ function Header() {
         </Grid>
       </Grid>
     </Container>
+  );
+}
+
+function Header() {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const tablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const desktop = useMediaQuery(theme.breakpoints.up("md"));
+
+  return (
+    <React.Fragment>
+      {mobile && <MobileHeader />}
+      {tablet && <TabletHeader />}
+      {desktop && <DesktopHeader />}
+    </React.Fragment>
   );
 }
 
