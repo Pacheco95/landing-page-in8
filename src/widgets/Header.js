@@ -1,19 +1,18 @@
 import {
-  Box,
   Container,
   Grid,
   makeStyles,
   Typography,
-  useMediaQuery,
+  Box,
   useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
 import DesktopHeaderImage from "assets/images/index-image.jpg";
 import LogoImage from "assets/images/logo-in8-dev.svg";
 import clsx from "clsx";
-import SandwichMenu from "components/SandwichMenu/SandwichMenu";
 import React, { useState } from "react";
-import { Link } from "react-scroll";
 import styled from "styled-components";
+import SandwichMenu from "components/SandwichMenu/SandwichMenu";
 
 const Spacer = styled.div`
   flex: 1 1 100%;
@@ -58,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     "& a:hover": {
       textDecoration: "underline",
     },
-    cursor: "pointer",
   }),
   circleSpacer: {
     color: theme.palette.common.white,
@@ -109,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavLink(props) {
-  const { children, selected, onClick, to } = props;
+  const { children, selected, onClick } = props;
 
   const classes = useStyles(props);
   return (
@@ -117,17 +115,9 @@ function NavLink(props) {
       className={clsx(classes.text, classes.navLinks)}
       variant="body1"
     >
-      <Link
-        activeClass="active"
-        to={to}
-        spy={true}
-        smooth={true}
-        duration={900}
-        onClick={onClick}
-        selected={selected}
-      >
+      <a href="#" selected={selected} onClick={onClick}>
         {children}
-      </Link>
+      </a>
     </Typography>
   );
 }
@@ -135,27 +125,22 @@ function NavLink(props) {
 function NavLinks(props) {
   const classes = useStyles(props);
 
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const links = [
-    { label: "Cadastro", el: "formEl" },
-    { label: "Lista", el: "tableEl" },
-    { label: "Sobre mim", el: "footerEl" },
-  ];
+  const links = ["Cadastro", "Lista", "Sobre mim"];
 
   return (
     <Grid container>
-      {links.map(({ label, el }, index) => (
-        <Grid item key={label}>
+      {links.map((link, index) => (
+        <Grid item key={link}>
           <Grid container>
             <Grid item>
               <NavLink
-                key={label}
+                key={link}
                 selected={index === selectedIndex}
                 onClick={() => setSelectedIndex(index)}
-                to={el}
               >
-                {label}
+                {link}
               </NavLink>
             </Grid>
             {index < links.length - 1 && (
@@ -183,7 +168,7 @@ function TabletHeader() {
           <Spacer />
         </Grid>
         <Grid item>
-          <img src={LogoImage} alt="" width={120} />
+          <img src={LogoImage} alt="logo image" width={120} />
         </Grid>
 
         <Grid item xs={12}>
@@ -226,7 +211,7 @@ function MobileHeader() {
           <Spacer />
         </Grid>
         <Grid item>
-          <img src={LogoImage} alt="" width={90} />
+          <img src={LogoImage} alt="logo image" width={90} />
         </Grid>
 
         <Grid item xs={12} id="headerTextContainer">
@@ -267,7 +252,7 @@ function DesktopHeader() {
     <Container maxWidth="xl" className={classes.root}>
       <Grid container justify="space-between">
         <Grid item>
-          <img src={LogoImage} alt="" width={190} />
+          <img src={LogoImage} width={190} />
         </Grid>
         <Grid item>
           <Spacer />
@@ -306,7 +291,9 @@ function Header() {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("xs"));
   const tablet = useMediaQuery(theme.breakpoints.down("md")) && !mobile;
-  const desktop = useMediaQuery(theme.breakpoints.up("md")) && !tablet;
+  const desktop = useMediaQuery(theme.breakpoints.up("md"));
+
+  console.log(mobile, tablet, desktop)
 
   return (
     <React.Fragment>

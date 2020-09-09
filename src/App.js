@@ -4,30 +4,21 @@ import RegisterForm from "widgets/RegisterForm/RegisterForm";
 import { Grid } from "@material-ui/core";
 import Table from "widgets/Table";
 import Footer from "widgets/Footer";
-import { Element } from "react-scroll";
 
 function App() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Element name="headerEl" className="element">
-          <Header />
-        </Element>
+        <Header />
       </Grid>
       <Grid item xs={12}>
-        <Element name="formEl" className="element">
-          <RegisterForm />
-        </Element>
+        <RegisterForm />
       </Grid>
       <Grid item xs={12}>
-        <Element name="tableEl" className="element">
-          <Table />
-        </Element>
+        <Table />
       </Grid>
       <Grid item xs={12}>
-        <Element name="footerEl" className="element">
-          <Footer />
-        </Element>
+        <Footer />
       </Grid>
     </Grid>
   );

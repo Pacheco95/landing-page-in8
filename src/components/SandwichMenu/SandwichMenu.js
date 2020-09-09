@@ -1,15 +1,13 @@
 import React from "react";
-import { Link } from "react-scroll";
 import SandwichMenuStyle from "./SandwichMenuStyle";
 
 const SandwichMenu = () => {
   const [checked, setChecked] = React.useState(false);
 
-  const uncheck = (elName) => setChecked(false);
-
-  function handleSetActive(to) {
-    uncheck();
-  }
+  const uncheck = () =>
+    setTimeout(() => {
+      setChecked(false);
+    }, 300);
 
   return (
     <SandwichMenuStyle color="red">
@@ -25,43 +23,12 @@ const SandwichMenu = () => {
           <span></span>
           <span></span>
 
+          {/* prettier-ignore */}
           <ul id="menu">
-            <Link
-              activeClass="active"
-              to="tableEl"
-              spy={true}
-              smooth={true}
-              offset={0}
-              duration={800}
-              onSetActive={handleSetActive}
-            >
-              <li>Lista</li>
-            </Link>
-
-            <Link
-              activeClass="active"
-              to="footerEl"
-              spy={true}
-              smooth={true}
-              offset={0}
-              duration={800}
-              onSetActive={handleSetActive}
-            >
-              <li>Sobre mim</li>
-            </Link>
-
-            <Link
-              activeClass="active"
-              to="formEl"
-              spy={true}
-              smooth={true}
-              offset={0}
-              duration={800}
-              onSetActive={handleSetActive}
-            >
-              <li>Cadastro</li>
-            </Link>
-          </ul>
+          <a href="#" onClick={uncheck}><li>Lista</li></a>
+          <a href="#" onClick={uncheck}><li>Sobre mim</li></a>
+          <a href="#" onClick={uncheck}><li>Cadastro</li></a>
+        </ul>
         </div>
       </nav>
     </SandwichMenuStyle>

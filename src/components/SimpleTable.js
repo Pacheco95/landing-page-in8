@@ -6,9 +6,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import React, { useState, useEffect } from "react";
-import api from "services";
 import moment from "moment";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import * as UserActions from "store/actions/users";
+import { bindActionCreators } from "redux";
 
 const useStyles = makeStyles({
   table: {
@@ -20,20 +22,13 @@ function formatPhoneNumber(s) {
   return s.replace(/^(\d{2})(\d)(\d{4})(\d{4}).*/, "($1) $2 $3\u2013$4");
 }
 
-export default function SimpleTable() {
+function SimpleTable({ users, fetchUsers }) {
   const classes = useStyles();
 
-  const [users, setUsers] = useState();
-
-  function fetchUsers() {
-    api
-      .get("/user")
-      .then((response) => response.data)
-      .then(setUsers)
-      .catch();
-  }
-
-  useEffect(fetchUsers, []);
+  useEffect(() => {
+    fetchUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <TableContainer component={Paper} elevation={0}>
@@ -67,3 +62,9 @@ export default function SimpleTable() {
     </TableContainer>
   );
 }
+
+const mapStateToProps = (state) => ({ users: state.users.users });
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(UserActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleTable);
