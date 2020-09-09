@@ -1,8 +1,9 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Snackbar } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import MuiAlert from "@material-ui/lab/Alert";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import React, { useState } from "react";
 import { connect } from "react-redux";
@@ -31,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function PhoneMask(props) {
   const { inputRef, ...other } = props;
@@ -74,6 +79,10 @@ function SignUpForm({ appendUser }) {
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState(null);
 
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackSeverity, setSnackSeverity] = useState();
+  const [snackMessage, setSnackMessage] = useState();
+
   function checkFormValidation() {
     if (name.trim() === "") {
       return alert("Nome inválido");
@@ -116,12 +125,43 @@ function SignUpForm({ appendUser }) {
       .post("/user", payload)
       .then((response) => response.data)
       .then(appendUser)
-      .catch(console.error);
+      .then(() => {
+        setSnackSeverity("success");
+        setSnackMessage("Cadastro realizado com sucesso");
+        setSnackOpen(true);
+      })
+      .catch((error) => {
+        console.error(error);
+        const errorMessage =
+          error.response.status === 409
+            ? "Este e-mail já está sendo utilizado"
+            : "Houve uma falha ao realizar seu cadastro";
+        setSnackSeverity("error");
+        setSnackMessage(errorMessage);
+        setSnackOpen(true);
+      });
   }
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
 
   return (
     <Container component="div" maxWidth="md">
       <div className={classes.paper}>
+        <Snackbar
+          open={snackOpen}
+          autoHideDuration={6000}
+          onClose={handleSnackClose}
+        >
+          <Alert onClose={handleSnackClose} severity={snackSeverity}>
+            {snackMessage}
+          </Alert>
+        </Snackbar>
         <Grid container className={classes.form}>
           <Grid item xs={12}>
             <TextField
