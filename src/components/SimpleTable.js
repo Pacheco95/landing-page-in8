@@ -22,11 +22,13 @@ function formatPhoneNumber(s) {
   return s.replace(/^(\d{2})(\d)(\d{4})(\d{4}).*/, "($1) $2 $3\u2013$4");
 }
 
-function SimpleTable({ users, fetchUsers }) {
+function SimpleTable(props) {
+  const { users, fetchUsers } = props;
+
   const classes = useStyles();
 
   useEffect(() => {
-    fetchUsers()
+    fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -44,7 +46,7 @@ function SimpleTable({ users, fetchUsers }) {
         <TableBody>
           {users &&
             users.map((row) => (
-              <TableRow key={row.name}>
+              <TableRow key={row.email}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
@@ -63,8 +65,13 @@ function SimpleTable({ users, fetchUsers }) {
   );
 }
 
-const mapStateToProps = (state) => ({ users: state.users.users });
+const mapStateToProps = (state) => ({
+  users: state.users.users,
+  loading: state.users.loading,
+  error: state.users.error,
+});
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(UserActions, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(UserActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleTable);

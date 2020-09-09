@@ -2,6 +2,7 @@ import {
   FETCH_USERS_BEGIN,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
+  APPEND_USER,
 } from "store/actions/users";
 
 const INITIAL_STATE = {
@@ -9,8 +10,6 @@ const INITIAL_STATE = {
 };
 
 export default function usersReducer(state = INITIAL_STATE, action) {
-  console.log(action);
-
   switch (action.type) {
     case FETCH_USERS_BEGIN:
       return {
@@ -31,6 +30,12 @@ export default function usersReducer(state = INITIAL_STATE, action) {
         error: action.payload.error,
         items: [],
       };
+    case APPEND_USER: {
+      return {
+        ...state,
+        users: [...state.users, action.user],
+      };
+    }
     default:
       return state;
   }

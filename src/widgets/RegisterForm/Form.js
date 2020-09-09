@@ -1,10 +1,16 @@
+import { Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import React from "react";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import MaskedInput from "react-text-mask";
-import { Grid } from "@material-ui/core";
+import { bindActionCreators } from "redux";
+import api from "services";
+import * as UserActions from "store/actions/users";
+import { EMAIL_REGEXP } from "utils";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,23 +31,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-function DateMaks(props) {
-  const { inputRef, ...other } = props;
-
-  return (
-    <MaskedInput
-      guide
-      {...other}
-      ref={(ref) => {
-        inputRef(ref ? ref.inputElement : null);
-      }}
-      mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
-      placeholderChar={"_"}
-      showMask
-    />
-  );
-}
 
 function PhoneMask(props) {
   const { inputRef, ...other } = props;
@@ -77,8 +66,58 @@ function PhoneMask(props) {
   );
 }
 
-export default function SignIn() {
+function SignUpForm({ appendUser }) {
   const classes = useStyles();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birthDate, setBirthDate] = useState(null);
+
+  function checkFormValidation() {
+    if (name.trim() === "") {
+      return alert("Nome inválido");
+    }
+
+    if (email.trim() === "") {
+      return alert("Email inválido");
+    }
+
+    if (!EMAIL_REGEXP.test(email)) {
+      return alert("Email inválido");
+    }
+
+    if (!birthDate.isValid()) {
+      return alert("Data inválida");
+    }
+
+    const rawPhone = (phone.match(/\d/g) || []).join("");
+
+    if (rawPhone.length !== 11) {
+      return alert("Telefone inválido");
+    }
+
+    return {
+      name,
+      email,
+      birthDate: birthDate.toDate().getTime(),
+      phone: rawPhone,
+    };
+  }
+
+  function handleSubmitButtonClick() {
+    const payload = checkFormValidation();
+
+    if (!payload) {
+      return;
+    }
+
+    api
+      .post("/user", payload)
+      .then((response) => response.data)
+      .then(appendUser)
+      .catch(console.error);
+  }
 
   return (
     <Container component="div" maxWidth="md">
@@ -94,6 +133,8 @@ export default function SignIn() {
               label="Nome"
               name="name"
               autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               // autoFocus
             />
           </Grid>
@@ -107,21 +148,24 @@ export default function SignIn() {
               label="E-mail"
               name="email"
               autoComplete="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              InputLabelProps={{ shrink: true }}
-              margin="normal"
-              required
+            <KeyboardDatePicker
+              clearable
+              clearLabel="Limpar"
+              cancelLabel="Cancelar"
+              autoOk
               fullWidth
-              id="birth"
               label="Nascimento"
-              name="birth"
-              autoComplete="birth"
-              InputProps={{
-                inputComponent: DateMaks,
-              }}
+              format="DD/MM/yyyy"
+              InputAdornmentProps={{ position: "end" }}
+              InputLabelProps={{ shrink: true }}
+              value={birthDate}
+              onChange={setBirthDate}
             />
           </Grid>
           <Grid item xs={12}>
@@ -137,6 +181,8 @@ export default function SignIn() {
               InputProps={{
                 inputComponent: PhoneMask,
               }}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -146,6 +192,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleSubmitButtonClick}
             >
               CADASTRAR
             </Button>
@@ -155,3 +202,9 @@ export default function SignIn() {
     </Container>
   );
 }
+
+const mapStateToProps = () => ({});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(UserActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
